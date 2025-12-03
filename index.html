@@ -297,6 +297,7 @@
         };
         const saveState = () => { sessionStorage.setItem(SESSION_STORAGE_KEY, JSON.stringify(Array.from(document.querySelectorAll('.scenario.open')).map(el => el.dataset.id))); };
         const loadState = () => { JSON.parse(sessionStorage.getItem(SESSION_STORAGE_KEY) || '[]').forEach(id => { const el = document.querySelector(`.scenario[data-id='${id}']`); if (el) { el.classList.add('open'); el.querySelector('.scenario-header').setAttribute('aria-expanded', 'true'); } }); };
+        searchInput.addEventListener('input', filterAndSearch);
         filtersContainer.addEventListener('click', e => { if (e.target.closest('.filter-btn')) { filtersContainer.querySelector('.active').classList.remove('active'); e.target.closest('.filter-btn').classList.add('active'); activeFilter = e.target.closest('.filter-btn').dataset.role; filterAndSearch(); } });
         anchorSelect.addEventListener('change', e => { if (e.target.value) { const target = document.getElementById(`escenario-${e.target.value}`); if (target) { if (!target.classList.contains('open')) { target.querySelector('.scenario-header').click(); } target.scrollIntoView({ behavior: 'smooth', block: 'center' }); } e.target.selectedIndex = 0; } });
         closeAllButton.addEventListener('click', () => { document.querySelectorAll('.scenario.open').forEach(s => { s.classList.remove('open'); s.querySelector('.scenario-header').setAttribute('aria-expanded', 'false'); }); sessionStorage.removeItem(SESSION_STORAGE_KEY); });
